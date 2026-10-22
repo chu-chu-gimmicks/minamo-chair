@@ -1,0 +1,20 @@
+{
+    "name": "ChuChuGimmicks.MinamoChair.EditorOnly.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:84265b35cca3905448e623ef3903f0ff",
+        "GUID:9f01e55be74441b4d8fbd18a85c1d1e4",
+        "GUID:8fbb994988e0d5c47811ccd7a323eda1"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
