@@ -1,8 +1,5 @@
-
-using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
-using VRC.Udon;
 
 namespace ChuChuGimmicks.MinamoChair.Runtime
 {
@@ -92,7 +89,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
-        private void AdjustHeightManually(bool isUserInVR, Transform referenceTransform, float deltaTime)
+        private void UpdateHeight(bool isUserInVR, Transform referenceTransform, float deltaTime)
         {
             if (!NeedsManualHeightAdjustment(isUserInVR, out int dir)) { return; }
 

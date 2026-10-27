@@ -1,8 +1,4 @@
-
-using UdonSharp;
 using UnityEngine;
-using VRC.SDKBase;
-using VRC.Udon;
 
 namespace ChuChuGimmicks.MinamoChair.Runtime
 {
@@ -34,7 +30,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
-        private void AdjustYawManually(bool isUserInVR, float deltaTime)
+        private void UpdateYaw(bool isUserInVR, float deltaTime)
         {
             if (!NeedsManualYawAdjustment(isUserInVR, deltaTime, out int dir)) {  return; }
 

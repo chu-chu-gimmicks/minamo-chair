@@ -11,7 +11,7 @@ namespace ChuChuGimmicks.MinamoChair.EditorOnly
         private const float MIN_LIMIT = -1f;
         private const float MAX_LIMIT = 3f;
 
-        private SerializedProperty _drawGizmosProp;
+        private SerializedProperty _drawGizmoProp;
 
         private SerializedProperty _autoAdjustmentMinHeightProp;
         private SerializedProperty _autoAdjustmentMaxHeightProp;
@@ -31,7 +31,7 @@ namespace ChuChuGimmicks.MinamoChair.EditorOnly
 
         private void OnEnable()
         {
-            _drawGizmosProp = serializedObject.FindProperty(Setup.FieldNames.DrawGizmos);
+            _drawGizmoProp = serializedObject.FindProperty(Setup.FieldNames.DrawGizmo);
 
             _autoAdjustmentMinHeightProp = serializedObject.FindProperty(Setup.FieldNames.AutoAdjustmentMinHeight);
             _autoAdjustmentMaxHeightProp = serializedObject.FindProperty(Setup.FieldNames.AutoAdjustmentMaxHeight);
@@ -53,14 +53,14 @@ namespace ChuChuGimmicks.MinamoChair.EditorOnly
             EditorGUI.BeginChangeCheck();
 
             EditorGUILayout.HelpBox(
-                "Gizmos の表示切り替え\n" +
-                "エディタの Gizmos が有効な場合、セットアップ用ガイドが表示されます。\n" +
+                "Gizmo の表示切り替え\n" +
+                "エディタの Gizmo が有効な場合、セットアップ用ガイドが表示されます。\n" +
                 "\n" +
                 "Toggle Gizmo Visibility\n" +
                 "Setup guides are displayed when Gizmos are enabled in the editor.",
                 MessageType.Info
             );
-            EditorGUILayout.PropertyField(_drawGizmosProp);
+            EditorGUILayout.PropertyField(_drawGizmoProp);
             EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 
             EditorGUILayout.HelpBox(
@@ -163,17 +163,6 @@ namespace ChuChuGimmicks.MinamoChair.EditorOnly
             minProp.floatValue = lowerValue;
             maxProp.floatValue = upperValue;
 
-            // UI 上のレイアウト都合で Max → Min の順に表示する
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(maxProp);
-            if (EditorGUI.EndChangeCheck())
-            {
-                float currentValue = maxProp.floatValue;
-                float lowerBound = Mathf.Max(minProp.floatValue, minLimit);
-                float upperBound = maxLimit;
-                maxProp.floatValue = Mathf.Clamp(currentValue, lowerBound, upperBound);
-            }
-
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(minProp);
             if (EditorGUI.EndChangeCheck())
@@ -182,6 +171,16 @@ namespace ChuChuGimmicks.MinamoChair.EditorOnly
                 float lowerBound = minLimit;
                 float upperBound = Mathf.Min(maxProp.floatValue, maxLimit);
                 minProp.floatValue = Mathf.Clamp(currentValue, lowerBound, upperBound);
+            }
+
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(maxProp);
+            if (EditorGUI.EndChangeCheck())
+            {
+                float currentValue = maxProp.floatValue;
+                float lowerBound = Mathf.Max(minProp.floatValue, minLimit);
+                float upperBound = maxLimit;
+                maxProp.floatValue = Mathf.Clamp(currentValue, lowerBound, upperBound);
             }
         }
 

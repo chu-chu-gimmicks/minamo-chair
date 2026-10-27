@@ -1,9 +1,3 @@
-
-using UdonSharp;
-using UnityEngine;
-using VRC.SDKBase;
-using VRC.Udon;
-
 namespace ChuChuGimmicks.MinamoChair.Runtime
 {
     public partial class Manager
@@ -15,7 +9,6 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         private void InitializeSyncHandler()
         {
-
         }
 
 
@@ -28,13 +21,15 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         private void UpdateSync(bool isUserInVR)
         {
             bool prevInput = _prevSyncInput;
-            bool currInput = isUserInVR ? InputStateLX != AxisState.Neutral || InputStateLY != AxisState.Neutral || InputStateRX != AxisState.Neutral || InputStateRY != AxisState.Neutral : InputStateJump == ButtonState.Pressed;
+            bool currInput = isUserInVR
+                ? InputStateRX == AxisState.Neutral && InputStateRY == AxisState.Neutral
+                : InputStateJump == ButtonState.Released;
             _prevSyncInput = currInput;
 
             if (!prevInput && currInput)
             {
                 UpdateSyncedTransform();
-                RequestSync();
+                ScheduleSync();
             }
         }
     }

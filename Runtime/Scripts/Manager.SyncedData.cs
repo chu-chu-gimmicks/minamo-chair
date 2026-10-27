@@ -1,9 +1,6 @@
-
 using UdonSharp;
 using UnityEngine;
-using VRC.SDK3.Components;
 using VRC.SDKBase;
-using VRC.Udon;
 
 namespace ChuChuGimmicks.MinamoChair.Runtime
 {
@@ -40,7 +37,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
-        private void RequestSync()
+        private void ScheduleSync()
         {
             if (!Networking.IsOwner(this.gameObject)) { return; }
             if (_isPendingSync) { return; }
@@ -50,19 +47,19 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             double remaining = SYNC_INTERVAL - elapsed;
             if (remaining > 0.0f)
             {
-                Log($"SyncSender", $"{nameof(RequestSync)}", $"{nameof(now)}={now}, {nameof(remaining)}={remaining}");
+                Log.Info($"SyncSender", $"{nameof(ScheduleSync)}: {nameof(now)}={now:F3}, {nameof(remaining)}={remaining:F3}");
 
-                SendCustomEventDelayedSeconds(nameof(ExecuteSync), (float)remaining);
+                SendCustomEventDelayedSeconds(nameof(ProcessSync), (float)remaining);
                 _isPendingSync = true;
             }
             else
             {
-                ExecuteSync();
+                ProcessSync();
             }
         }
 
 
-        public void ExecuteSync()
+        public void ProcessSync()
         {
             _isPendingSync = false;
 
@@ -70,14 +67,14 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
             if (Networking.IsClogged)
             {
-                SendCustomEventDelayedSeconds(nameof(ExecuteSync), RETRY_INTERVAL);
+                SendCustomEventDelayedSeconds(nameof(ProcessSync), RETRY_INTERVAL);
                 _isPendingSync = true;
             }
             else
             {
                 double now = Networking.GetServerTimeInSeconds();
 
-                Log($"SyncSender", $"{nameof(ExecuteSync)}", $"{nameof(now)}={now}, {nameof(_lastSyncTime)}={_lastSyncTime}, diff={now-_lastSyncTime}");
+                Log.Info($"SyncSender", $"{nameof(ProcessSync)}: {nameof(now)}={now:F3}, {nameof(_lastSyncTime)}={_lastSyncTime:F3}, diff={now-_lastSyncTime:F3}");
 
                 RequestSerialization();
                 _lastSyncTime = now;
@@ -85,30 +82,30 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
-        private void RequestPeriodicSync()
+        private void SchedulePeriodicSync()
         {
             if (!Networking.IsOwner(this.gameObject)) { return; }
             if (_isPendingPeriodicSync) { return; }
 
-            SendCustomEventDelayedSeconds(nameof(ExecutePeriodicSync), PERIODIC_SYNC_INTERVAL);
+            Log.Info($"SyncReceiver", $"{nameof(SchedulePeriodicSync)}: Schedule next periodic sync");
+
+            SendCustomEventDelayedSeconds(nameof(ProcessPeriodicSync), PERIODIC_SYNC_INTERVAL);
             _isPendingPeriodicSync = true;
         }
 
 
-        public void ExecutePeriodicSync()
+        public void ProcessPeriodicSync()
         {
             _isPendingPeriodicSync = false;
 
             if (!Networking.IsOwner(this.gameObject)) { return; }
 
             UpdateSyncedTransform();
-            RequestSync();
+            ScheduleSync();
 
             if (_state != State.Idle)
             {
-                Log($"SyncReceiver", nameof(ExecutePeriodicSync), $"Request next periodic sync");
-
-                RequestPeriodicSync();
+                SchedulePeriodicSync();
             }
         }
 
@@ -123,7 +120,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         public override void OnDeserialization()
         {
-            Log($"SyncReceiver", nameof(OnDeserialization));
+            Log.Info($"SyncReceiver", nameof(OnDeserialization));
 
             ReflectSyncedData();
         }
@@ -131,7 +128,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         private void ReflectSyncedData()
         {
-            Log($"SyncReceiver", nameof(ReflectSyncedData));
+            Log.Info($"SyncReceiver", nameof(ReflectSyncedData));
 
             Vector3 pos;
 

@@ -687,8 +687,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5468852079575602767}
   - {fileID: 1847696849403570366}
+  - {fileID: 5468852079575602767}
   - {fileID: 5655011458814675024}
   - {fileID: 3272500881607487413}
   - {fileID: 5657917849027244434}
@@ -706,7 +706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8101948aa86df0e4eabd6cb070c176c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _drawGizmos: 1
+  _drawGizmo: 0
   _autoAdjustmentMinHeight: 0.5
   _autoAdjustmentMaxHeight: 1
   _manualAdjustmentMinHeight: 0

@@ -1,9 +1,3 @@
-
-using UdonSharp;
-using UnityEngine;
-using VRC.SDKBase;
-using VRC.Udon;
-
 namespace ChuChuGimmicks.MinamoChair.Runtime
 {
     public partial class Manager

@@ -7,7 +7,7 @@ namespace ChuChuGimmicks.MinamoChair.EditorOnly
     {
         public static class FieldNames
         {
-            public const string DrawGizmos = nameof(_drawGizmos);
+            public const string DrawGizmo = nameof(_drawGizmo);
 
             public const string AutoAdjustmentMinHeight = nameof(_autoAdjustmentMinHeight);
             public const string AutoAdjustmentMaxHeight = nameof(_autoAdjustmentMaxHeight);
@@ -24,7 +24,7 @@ namespace ChuChuGimmicks.MinamoChair.EditorOnly
 
 
 
-        [SerializeField] private bool _drawGizmos;
+        [SerializeField] private bool _drawGizmo;
 
         [SerializeField] private float _autoAdjustmentMinHeight;
         [SerializeField] private float _autoAdjustmentMaxHeight;
@@ -42,7 +42,7 @@ namespace ChuChuGimmicks.MinamoChair.EditorOnly
 
         private void OnDrawGizmos()
         {
-            if (_drawGizmos)
+            if (_drawGizmo)
             {
                 GizmoDrawer.DrawCube(_manager.ReferenceTransform, _autoAdjustmentMaxHeight, _autoAdjustmentMinHeight);
                 GizmoDrawer.DrawWireCube(_manager.ReferenceTransform, _manualAdjustmentMaxHeight, _manualAdjustmentMinHeight);

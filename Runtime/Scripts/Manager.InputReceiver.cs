@@ -1,9 +1,5 @@
-
-using UdonSharp;
-using UnityEngine;
 using VRC.SDK3.Rendering;
 using VRC.SDKBase;
-using VRC.Udon;
 using VRC.Udon.Common;
 
 namespace ChuChuGimmicks.MinamoChair.Runtime
