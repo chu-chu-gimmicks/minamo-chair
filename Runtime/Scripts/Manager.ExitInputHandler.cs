@@ -14,6 +14,12 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
+        private void BeginExitInputHandler()
+        {
+            _prevExitInput = false;
+        }
+
+
         private void ResetExitInputHandler()
         {
             _prevExitInput = false;

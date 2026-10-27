@@ -25,6 +25,20 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
+        private void BeginHeightHandler()
+        {
+            Vector3 pos;
+
+            pos = _enterPoint.localPosition;
+            pos.y = _initialPointHeight;
+            _enterPoint.localPosition = pos;
+
+            pos = _model.localPosition;
+            pos.y = _initialModelHeight;
+            _model.localPosition = pos;
+        }
+
+
         private void ResetHeightHandler(Transform referenceTransform)
         {
             Vector3 pos;

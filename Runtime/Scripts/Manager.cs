@@ -53,7 +53,24 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
-        private void ResetChair()
+        private void BeginSeating()
+        {
+            _state = State.AutomaticallyAdjusting;
+
+            BeginSyncedData();
+            BeginInputReceiver();
+            BeginHeightHandler();
+            BeginYawHandler();
+            BeginGuideHandler();
+            BeginSyncHandler();
+            BeginExitInputHandler();
+
+            SendCustomEventDelayedSeconds(nameof(_EndAutoAdjustment), AUTO_ADJUSTMENT_DURATION);
+            _pendingEndAutoAdjustmentCount++;
+        }
+
+
+        private void ResetSeating()
         {
             _state = State.Idle;
 
@@ -75,7 +92,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         private void OnDisable()
         {
-            ResetChair();
+            ResetSeating();
         }
 
 
@@ -96,7 +113,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
                     Networking.SetOwner(Networking.LocalPlayer, this.gameObject);
                 }
 
-                StartAutoAdjustment();
+                BeginSeating();
 
                 _sittingPlayerId = player.playerId;
                 UpdateSyncedTransform();
@@ -111,15 +128,6 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
                 // Join 時の OnDeserialization() -> ReflectSyncedData() は OnStationExited() でリセットしてしまうため、2回目の OnStationEntered() でも ReflectSyncedData() を実行する。
                 ReflectSyncedData();
             }
-        }
-
-
-        private void StartAutoAdjustment()
-        {
-            _state = State.AutomaticallyAdjusting;
-
-            SendCustomEventDelayedSeconds(nameof(_EndAutoAdjustment), AUTO_ADJUSTMENT_DURATION);
-            _pendingEndAutoAdjustmentCount++;
         }
 
 
@@ -149,7 +157,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
             _frameEventReceiver.enabled = false;
 
-            ResetChair();
+            ResetSeating();
 
             if (Networking.IsOwner(this.gameObject))
             {
@@ -193,7 +201,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             
             if (player.isLocal)
             {
-                ResetChair();
+                ResetSeating();
 
                 _sittingPlayerId = 0;
                 UpdateSyncedTransform();
@@ -201,7 +209,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             }
             else
             {
-                ResetChair();
+                ResetSeating();
             }
         }
     }

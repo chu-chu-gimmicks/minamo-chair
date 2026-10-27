@@ -28,6 +28,16 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
+        private void BeginInputReceiver()
+        {
+            InputStateLX = AxisState.Neutral;
+            InputStateLY = AxisState.Neutral;
+            InputStateRX = AxisState.Neutral;
+            InputStateRY = AxisState.Neutral;
+            InputStateJump = ButtonState.Released;
+        }
+
+
         private void ResetInputReceiver()
         {
             InputStateLX = AxisState.Neutral;

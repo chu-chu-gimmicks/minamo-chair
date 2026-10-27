@@ -12,6 +12,12 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
+        private void BeginSyncHandler()
+        {
+            _prevSyncInput = false;
+        }
+
+
         private void ResetSyncHandler()
         {
             _prevSyncInput = false;

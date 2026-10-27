@@ -31,9 +31,13 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
+        private void BeginSyncedData()
+        {
+        }
+
+
         private void ResetSyncedData()
         {
-
         }
 
 

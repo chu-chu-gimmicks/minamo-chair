@@ -18,6 +18,18 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         }
 
 
+        private void BeginYawHandler()
+        {
+            _exitPoint.localRotation = _enterPoint.localRotation;
+
+            _enterPoint.localRotation = Quaternion.identity;
+            _model.localRotation = Quaternion.identity;
+
+            _yawAdjustmentTimer = 0f;
+            _prevYawAdjustmentInput = AxisState.Neutral;
+        }
+
+
         private void ResetYawHandler()
         {
             _exitPoint.localRotation = _enterPoint.localRotation;

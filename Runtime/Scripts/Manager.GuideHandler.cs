@@ -12,12 +12,19 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         private void InitializeGuideHandler(bool isUserInVR)
         {
-            _guide.gameObject.SetActive(true);
-
             Sprite guideTexture = _guideSprites[isUserInVR ? 0 : 1];
             _guideImage.sprite = guideTexture;
+        }
 
+
+        private void BeginGuideHandler()
+        {
+            _guide.gameObject.SetActive(true);
+            _guide.localPosition = Vector3.zero;
+            _guide.localRotation = Quaternion.identity;
             _disabledOverlay.SetActive(true);
+
+            _prevGuideShowInput = false;
         }
 
 
