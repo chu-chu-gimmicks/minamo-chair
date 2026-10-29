@@ -55,6 +55,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         private void BeginSeating()
         {
+            _frameEventReceiver.enabled = true;
             _state = State.AutomaticallyAdjusting;
 
             BeginSyncedData();
@@ -72,6 +73,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         private void ResetSeating()
         {
+            _frameEventReceiver.enabled = false;
             _state = State.Idle;
 
             ResetSyncedData();
@@ -119,8 +121,6 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
                 UpdateSyncedTransform();
                 ScheduleSync();
                 SchedulePeriodicSync();
-
-                _frameEventReceiver.enabled = true;
             }
             else
             {
@@ -154,8 +154,6 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         public override void OnStationExited(VRCPlayerApi player)
         {
             Log.Info(nameof(Manager), $"{nameof(OnStationExited)}: playerId={player.playerId}, displayName={player.displayName}");
-
-            _frameEventReceiver.enabled = false;
 
             ResetSeating();
 
@@ -194,7 +192,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         // 座っているプレイヤーが退室しても OnStationExited() は発火しない
         public override void OnOwnershipTransferred(VRCPlayerApi player)
         {
-            // OnStationExit() が発火していない -> _sittingPlayerId != 0
+            // _sittingPlayerId != 0 -> OnStationExit() が発火していない
             if (_sittingPlayerId == 0) { return; }
 
             Log.Info(nameof(Manager), $"{nameof(OnOwnershipTransferred)}: playerId={player.playerId}, displayName={player.displayName}");
