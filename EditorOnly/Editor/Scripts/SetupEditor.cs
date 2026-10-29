@@ -99,6 +99,7 @@ namespace ChuChuGimmicks.MinamoChair.EditorOnly
             EditorGUILayout.PropertyField(_modelAdjustmentModeProp);
             if (_modelAdjustmentModeProp.intValue == (int)ModelAdjustmentMode.HeightAndYaw)
             {
+                EditorGUILayout.Slider(_modelSurfaceHeightProp, MIN_LIMIT, MAX_LIMIT);
                 EditorGUILayout.HelpBox(
                     " - 自動高さ調整時: 高さはアバターに合わせて自動調整、向きは連動\n" +
                     " - 手動高さ調整時: 高さ/向きともに連動\n" +
@@ -109,7 +110,6 @@ namespace ChuChuGimmicks.MinamoChair.EditorOnly
                     "Set the blue plane to the height of the model's seat surface.",
                     MessageType.Info
                 );
-                EditorGUILayout.Slider(_modelSurfaceHeightProp, MIN_LIMIT, MAX_LIMIT);
             }
             else if (_modelAdjustmentModeProp.intValue == (int)ModelAdjustmentMode.YawOnly)
             {

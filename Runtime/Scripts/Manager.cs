@@ -133,9 +133,9 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         public void _EndAutoAdjustment()
         {
-            Log.Info(nameof(Manager), $"{nameof(_EndAutoAdjustment)}: {nameof(_pendingEndAutoAdjustmentCount)}={_pendingEndAutoAdjustmentCount}->{_pendingEndAutoAdjustmentCount - 1}");
-
             _pendingEndAutoAdjustmentCount--;
+
+            Log.Info(nameof(Manager), $"{nameof(_EndAutoAdjustment)}: {nameof(_pendingEndAutoAdjustmentCount)}={_pendingEndAutoAdjustmentCount}");
 
             if (_pendingEndAutoAdjustmentCount > 0) { return; }
             if (_state != State.AutomaticallyAdjusting) { return; }

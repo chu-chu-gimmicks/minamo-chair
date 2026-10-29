@@ -51,7 +51,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             double remaining = SYNC_INTERVAL - elapsed;
             if (remaining > 0.0f)
             {
-                Log.Info($"SyncSender", $"{nameof(ScheduleSync)}: {nameof(now)}={now:F3}, {nameof(remaining)}={remaining:F3}");
+                Log.Info($"SyncedData", $"{nameof(ScheduleSync)}: {nameof(now)}={now:F3}, {nameof(remaining)}={remaining:F3}");
 
                 SendCustomEventDelayedSeconds(nameof(ProcessSync), (float)remaining);
                 _isPendingSync = true;
@@ -78,7 +78,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             {
                 double now = Networking.GetServerTimeInSeconds();
 
-                Log.Info($"SyncSender", $"{nameof(ProcessSync)}: {nameof(now)}={now:F3}, {nameof(_lastSyncTime)}={_lastSyncTime:F3}, diff={now-_lastSyncTime:F3}");
+                Log.Info($"SyncedData", $"{nameof(ProcessSync)}: {nameof(now)}={now:F3}, {nameof(_lastSyncTime)}={_lastSyncTime:F3}, diff={now-_lastSyncTime:F3}");
 
                 RequestSerialization();
                 _lastSyncTime = now;
@@ -90,8 +90,9 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         {
             if (!Networking.IsOwner(this.gameObject)) { return; }
             if (_isPendingPeriodicSync) { return; }
+            if (_state == State.Idle) { return; }
 
-            Log.Info($"SyncReceiver", $"{nameof(SchedulePeriodicSync)}: Schedule next periodic sync");
+            Log.Info($"SyncedData", $"{nameof(SchedulePeriodicSync)}");
 
             SendCustomEventDelayedSeconds(nameof(ProcessPeriodicSync), PERIODIC_SYNC_INTERVAL);
             _isPendingPeriodicSync = true;
@@ -103,6 +104,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             _isPendingPeriodicSync = false;
 
             if (!Networking.IsOwner(this.gameObject)) { return; }
+            if (_state == State.Idle) { return; }
 
             UpdateSyncedTransform();
             ScheduleSync();
@@ -124,7 +126,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         public override void OnDeserialization()
         {
-            Log.Info($"SyncReceiver", nameof(OnDeserialization));
+            Log.Info($"SyncedData", nameof(OnDeserialization));
 
             ReflectSyncedData();
         }
@@ -132,7 +134,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         private void ReflectSyncedData()
         {
-            Log.Info($"SyncReceiver", nameof(ReflectSyncedData));
+            Log.Info($"SyncedData", nameof(ReflectSyncedData));
 
             Vector3 pos;
 

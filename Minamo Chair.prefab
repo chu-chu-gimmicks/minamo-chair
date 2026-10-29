@@ -778,7 +778,7 @@ GameObject:
   - component: {fileID: 8222897065837494066}
   - component: {fileID: 2037848119481250498}
   m_Layer: 0
-  m_Name: MinamoChair
+  m_Name: Minamo Chair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -869,8 +869,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25aadd1d638df1c40b10394a2c2f0b7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _description: "\u3053\u306E\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u306E\u4E2D\u306B\u30A4\u30B9\u306E\u30E2\u30C7\u30EB\u3092\u914D\u7F6E\u3057\u3066\u304F\u3060\u3055\u3044\u3002\n\nPlace
-    a chair model inside this object."
+  _description: "\u3053\u306E\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u306E\u4E2D\u306B\u30E2\u30C7\u30EB\u3092\u914D\u7F6E\u3057\u3066\u304F\u3060\u3055\u3044\u3002\n\nPlace
+    a model inside this object."
 --- !u!1 &9165488861272114627
 GameObject:
   m_ObjectHideFlags: 0
