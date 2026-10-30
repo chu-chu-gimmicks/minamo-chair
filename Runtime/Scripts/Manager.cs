@@ -56,7 +56,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         private void BeginSeating()
         {
             _frameEventReceiver.enabled = true;
-            _state = State.AutomaticallyAdjusting;
+            _state = State.Auto;
 
             BeginSyncedData();
             BeginInputReceiver();
@@ -138,11 +138,11 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             Log.Info(nameof(Manager), $"{nameof(_EndAutoAdjustment)}: {nameof(_pendingEndAutoAdjustmentCount)}={_pendingEndAutoAdjustmentCount}");
 
             if (_pendingEndAutoAdjustmentCount > 0) { return; }
-            if (_state != State.AutomaticallyAdjusting) { return; }
+            if (_state != State.Auto) { return; }
 
             Log.Info(nameof(Manager), $"{nameof(_EndAutoAdjustment)}: End");
 
-            _state = State.ManuallyAdjusting;
+            _state = State.Manual;
 
             OnAutoAdjustmentEndedGuideHandler();
 
@@ -168,7 +168,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         public void _LateUpdate()
         {
-            if (_state == State.AutomaticallyAdjusting)
+            if (_state == State.Auto)
             {
                 float deltaTime = Time.deltaTime;
                 AdjustHeightAutomatically(ReferenceTransform);
@@ -177,7 +177,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
                 AdjustGuideHeightAutomatically(ReferenceTransform);
                 UpdateExit(_isUserInVR);
             }
-            else if (_state == State.ManuallyAdjusting)
+            else if (_state == State.Manual)
             {
                 float deltaTime = Time.deltaTime;
                 UpdateHeight(_isUserInVR, ReferenceTransform, deltaTime);

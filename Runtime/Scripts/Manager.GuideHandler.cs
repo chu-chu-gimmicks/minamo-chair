@@ -20,8 +20,8 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         private void BeginGuideHandler()
         {
             _guide.gameObject.SetActive(true);
-            _guide.localPosition = Vector3.zero;
-            _guide.localRotation = Quaternion.identity;
+            _guide.localPosition = Manager.WithHeight(_guide.localPosition, 0f);
+            _guide.localRotation = Manager.WithYaw(_guide.localRotation, 0f);
             _disabledOverlay.SetActive(true);
 
             _prevGuideShowInput = false;
@@ -31,8 +31,8 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         private void ResetGuideHandler()
         {
             _guide.gameObject.SetActive(false);
-            _guide.localPosition = Vector3.zero;
-            _guide.localRotation = Quaternion.identity;
+            _guide.localPosition = Manager.WithHeight(_guide.localPosition, 0f);
+            _guide.localRotation = Manager.WithYaw(_guide.localRotation, 0f);
             _disabledOverlay.SetActive(false);
 
             _prevGuideShowInput = false;
@@ -68,10 +68,8 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         {
             Vector3 viewpointPos = Networking.LocalPlayer.GetTrackingData(VRCPlayerApi.TrackingDataType.Head).position;
             Vector3 localViewPointPos = referenceTransform.InverseTransformPoint(viewpointPos);
-
-            Vector3 pos = _guide.localPosition;
-            pos.y = localViewPointPos.y;
-            _guide.localPosition = pos;
+            float localViewpointHeight = localViewPointPos.y;
+            _guide.localPosition = Manager.WithHeight(_guide.localPosition, localViewpointHeight);
         }
 
 

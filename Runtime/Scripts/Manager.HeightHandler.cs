@@ -8,7 +8,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         private const float HEIGHT_ADJUSTMENT_SPEED = 0.5f;
         private const float THIGH_RADIUS = 0.03f;
 
-        private float _initialPointHeight = 0f;
+        private float _initialEnterPointHeight = 0f;
         private float _initialModelHeight = 0f;
 
         private float _modelSurfaceOffset = 0f;
@@ -18,7 +18,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         private void InitializeHeightHandler()
         {
-            _initialPointHeight = _enterPoint.localPosition.y;
+            _initialEnterPointHeight = _enterPoint.localPosition.y;
             _initialModelHeight = _model.localPosition.y;
 
             _modelSurfaceOffset = _modelSurfaceHeight - _model.localPosition.y;
@@ -27,22 +27,13 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         private void BeginHeightHandler()
         {
-            Vector3 pos;
-
-            pos = _enterPoint.localPosition;
-            pos.y = _initialPointHeight;
-            _enterPoint.localPosition = pos;
-
-            pos = _model.localPosition;
-            pos.y = _initialModelHeight;
-            _model.localPosition = pos;
+            _enterPoint.localPosition = WithHeight(_enterPoint.localPosition, _initialEnterPointHeight);
+            _model.localPosition = WithHeight(_model.localPosition, _initialModelHeight);
         }
 
 
         private void ResetHeightHandler(Transform referenceTransform)
         {
-            Vector3 pos;
-
             _exitPoint.localPosition = _enterPoint.localPosition;
 
             Vector3 origin = referenceTransform.position;
@@ -53,20 +44,12 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             if (Physics.Raycast(origin, direction, out RaycastHit hit, maxDistance, layerMask, queryTriggerInteraction))
             {
                 Vector3 localHitPoint = referenceTransform.InverseTransformPoint(hit.point);
-                float targetHeight = Mathf.Max(localHitPoint.y, _exitPoint.localPosition.y);
-
-                pos = _exitPoint.localPosition;
-                pos.y = targetHeight;
-                _exitPoint.localPosition = pos;
+                float localTargetHeight = Mathf.Max(localHitPoint.y, _exitPoint.localPosition.y);
+                _exitPoint.localPosition = WithHeight(_exitPoint.localPosition, localTargetHeight);
             }
 
-            pos = _enterPoint.localPosition;
-            pos.y = _initialPointHeight;
-            _enterPoint.localPosition = pos;
-
-            pos = _model.localPosition;
-            pos.y = _initialModelHeight;
-            _model.localPosition = pos;
+            _enterPoint.localPosition = WithHeight(_enterPoint.localPosition, _initialEnterPointHeight);
+            _model.localPosition = WithHeight(_model.localPosition, _initialModelHeight);
         }
 
 
@@ -97,9 +80,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             float localKneeHeight = GetLocalKneeHeight(referenceTransform);
             float localTargetHeight = localKneeHeight - THIGH_RADIUS - _modelSurfaceOffset;
 
-            Vector3 pos = _model.localPosition;
-            pos.y = localTargetHeight;
-            _model.localPosition = pos;
+            _model.localPosition = WithHeight(_model.localPosition, localTargetHeight);
         }
 
 
@@ -158,6 +139,13 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             Vector3 localLeftLowerLegPos = referenceTransform.InverseTransformPoint(leftLowerLegPos);
             Vector3 localRightLowerLegPos = referenceTransform.InverseTransformPoint(rightLowerLegPos);
             return Mathf.Min(localLeftLowerLegPos.y, localRightLowerLegPos.y);
+        }
+
+
+        private static Vector3 WithHeight(Vector3 position, float height)
+        {
+            position.y = height;
+            return position;
         }
     }
 }

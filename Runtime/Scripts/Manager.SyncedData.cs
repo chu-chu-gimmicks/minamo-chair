@@ -13,8 +13,9 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
 
         [UdonSynced] private int _sittingPlayerId = 0;
         [UdonSynced] private float _enterPointHeight = 0.0f;
+        [UdonSynced] private float _enterPointYaw = 0.0f;
         [UdonSynced] private float _modelHeight = 0.0f;
-        [UdonSynced] private float _yaw = 0.0f;
+        [UdonSynced] private float _modelYaw = 0.0f;
 
         private bool _isPendingSync = false;
         private double _lastSyncTime = 0f;
@@ -78,7 +79,7 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             {
                 double now = Networking.GetServerTimeInSeconds();
 
-                Log.Info($"SyncedData", $"{nameof(ProcessSync)}: {nameof(now)}={now:F3}, {nameof(_lastSyncTime)}={_lastSyncTime:F3}, diff={now-_lastSyncTime:F3}");
+                Log.Info($"SyncedData", $"{nameof(ProcessSync)}: {nameof(now)}={now:F3}, {nameof(_lastSyncTime)}={_lastSyncTime:F3}, diff={now - _lastSyncTime:F3}");
 
                 RequestSerialization();
                 _lastSyncTime = now;
@@ -119,8 +120,9 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         private void UpdateSyncedTransform()
         {
             _enterPointHeight = _enterPoint.localPosition.y;
+            _enterPointYaw = _enterPoint.localEulerAngles.y;
             _modelHeight = _model.localPosition.y;
-            _yaw = _enterPoint.localEulerAngles.y;
+            _modelYaw = _model.localEulerAngles.y;
         }
 
 
@@ -149,11 +151,11 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
             Vector3 rot;
 
             rot = _enterPoint.localEulerAngles;
-            rot.y = _yaw;
+            rot.y = _enterPointYaw;
             _enterPoint.localEulerAngles = rot;
 
             rot = _model.localEulerAngles;
-            rot.y = _yaw;
+            rot.y = _modelYaw;
             _model.localEulerAngles = rot;
         }
     }
