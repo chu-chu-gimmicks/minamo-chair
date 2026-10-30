@@ -138,25 +138,10 @@ namespace ChuChuGimmicks.MinamoChair.Runtime
         {
             Log.Info($"SyncedData", nameof(ReflectSyncedData));
 
-            Vector3 pos;
-
-            pos = _enterPoint.localPosition;
-            pos.y = _enterPointHeight;
-            _enterPoint.localPosition = pos;
-
-            pos = _model.localPosition;
-            pos.y = _modelHeight;
-            _model.localPosition = pos;
-
-            Vector3 rot;
-
-            rot = _enterPoint.localEulerAngles;
-            rot.y = _enterPointYaw;
-            _enterPoint.localEulerAngles = rot;
-
-            rot = _model.localEulerAngles;
-            rot.y = _modelYaw;
-            _model.localEulerAngles = rot;
+            _enterPoint.localPosition = Manager.WithHeight(_enterPoint.localPosition, _enterPointHeight);
+            _enterPoint.localRotation = Manager.WithYaw(_enterPoint.localRotation, _enterPointYaw);
+            _model.localPosition = Manager.WithHeight(_model.localPosition, _modelHeight);
+            _model.localRotation = Manager.WithYaw(_model.localRotation, _modelYaw);
         }
     }
 }
